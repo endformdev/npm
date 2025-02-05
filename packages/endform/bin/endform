@@ -1,3 +1,63 @@
 #!/usr/bin/env node
+/**
+ * A simplified launcher for the Endform CLI.
+ *
+ * This script selects and executes the appropriate platform-specific binary.
+ * It supports only macOS and Linux on x86 (x64) or arm64.
+ */
 
-console.log("hello from endform.js");
+const child_process = require("child_process");
+const path = require("path");
+
+// Define supported platforms and architectures.
+const supportedPlatforms = ["darwin", "linux"];
+const supportedArchs = ["x64", "arm64"];
+
+const platform = process.platform;
+if (!supportedPlatforms.includes(platform)) {
+	console.error(
+		`Unsupported platform: ${platform}. This CLI supports only macOS and Linux.`,
+	);
+	process.exit(1);
+}
+
+const arch = process.arch;
+if (!supportedArchs.includes(arch)) {
+	console.error(
+		`Unsupported architecture: ${arch}. This CLI supports only x86 and arm64.`,
+	);
+	process.exit(1);
+}
+
+// Map Node's "x64" to our package naming convention "x86"
+const archSuffix = arch === "x64" ? "x86" : "arm64";
+
+// Construct the package name.
+// For example: "endform-darwin-x86" or "endform-linux-arm64"
+const packageName = `endform-${platform}-${archSuffix}`;
+
+// The binary is expected to reside at "bin/endform" inside the package.
+const binaryRelativePath = "bin/endform";
+
+let binaryPath;
+try {
+	// Attempt to resolve the binary from the installed dependency.
+	binaryPath = require.resolve(`${packageName}/${binaryRelativePath}`);
+} catch (err) {
+	console.error(
+		`Error: Could not find the Endform binary for ${platform} (${arch}).`,
+	);
+	console.error(
+		`Ensure that the package "${packageName}" is installed as an optional dependency.`,
+	);
+	process.exit(1);
+}
+
+// Execute the binary and forward any command-line arguments.
+try {
+	child_process.execFileSync(binaryPath, process.argv.slice(2), {
+		stdio: "inherit",
+	});
+} catch (err) {
+	process.exit(err.status || 1);
+}
