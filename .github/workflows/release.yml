@@ -71,6 +71,11 @@ jobs:
             echo "Updating version in $pkg/package.json"
             jq --arg version "$VERSION" '.version = $version' $pkg/package.json > $pkg/tmp.json && mv $pkg/tmp.json $pkg/package.json
           done
+      
+      - name: Configure npm auth
+        run: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       # Publish each package to npm (requires an NPM_TOKEN secret)
       - name: Publish packages to npm
