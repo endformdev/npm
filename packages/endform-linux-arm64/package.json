@@ -1,0 +1,11 @@
+{
+	"name": "endform-linux-arm64",
+	"version": "0.0.1",
+	"description": "Endform binary for linux ARM64",
+	"os": ["linux"],
+	"cpu": ["arm64"],
+	"files": ["bin"],
+	"bin": {
+		"endform": "./bin/endform"
+	}
+}

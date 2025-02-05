@@ -1,0 +1,16 @@
+{
+	"name": "endform",
+	"version": "0.0.1",
+	"description": "Endform CLI",
+	"repository": "https://github.com/endformdev/npm",
+	"license": "UNLICENSED",
+	"bin": {
+		"endform": "./bin/endform"
+	},
+	"optionalDependencies": {
+		"endform-darwin-arm64": "0.0.1",
+		"endform-darwin-x86": "0.0.1",
+		"endform-linux-arm64": "0.0.1",
+		"endform-linux-x86": "0.0.1"
+	}
+}

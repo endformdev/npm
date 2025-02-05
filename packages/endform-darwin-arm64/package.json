@@ -1,0 +1,11 @@
+{
+	"name": "endform-darwin-arm64",
+	"version": "0.0.1",
+	"description": "Endform binary for macOS ARM64",
+	"os": ["darwin"],
+	"cpu": ["arm64"],
+	"files": ["bin"],
+	"bin": {
+		"endform": "./bin/endform"
+	}
+}

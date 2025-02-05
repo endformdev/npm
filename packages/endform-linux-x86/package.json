@@ -1,0 +1,11 @@
+{
+	"name": "endform-linux-x86",
+	"version": "0.0.1",
+	"description": "Endform binary for linux x86",
+	"os": ["linux"],
+	"cpu": ["x86"],
+	"files": ["bin"],
+	"bin": {
+		"endform": "./bin/endform"
+	}
+}

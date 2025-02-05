@@ -1,0 +1,11 @@
+{
+	"name": "endform-darwin-x86",
+	"version": "0.0.1",
+	"description": "Endform binary for macOS x86",
+	"os": ["darwin"],
+	"cpu": ["x86"],
+	"files": ["bin"],
+	"bin": {
+		"endform": "./bin/endform"
+	}
+}
