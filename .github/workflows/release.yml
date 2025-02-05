@@ -64,11 +64,16 @@ jobs:
           mkdir -p packages/endform-linux-x86/bin
           tar -xzf ${FILE} -C packages/endform-linux-x86/bin
 
-      # Optionally update the version field in each package.json using jq
+      # Update the version field in each package.json.
+      # For the main package, also update its optionalDependencies.
       - name: Update package versions
         run: |
           for pkg in packages/endform packages/endform-darwin-arm64 packages/endform-darwin-x86 packages/endform-linux-arm64 packages/endform-linux-x86; do
             echo "Updating version in $pkg/package.json"
+            if [ "$pkg" = "packages/endform" ]; then
+              jq --arg version "$VERSION" '.version = $version | if has("optionalDependencies") then .optionalDependencies |= with_entries(.value = $version) else . end' "$pkg/package.json" > "$pkg/tmp.json" && mv "$pkg/tmp.json" "$pkg/package.json"
+            fi
+
             jq --arg version "$VERSION" '.version = $version' $pkg/package.json > $pkg/tmp.json && mv $pkg/tmp.json $pkg/package.json
           done
       
